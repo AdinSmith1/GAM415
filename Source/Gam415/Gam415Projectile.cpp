@@ -6,6 +6,8 @@
 #include "Components/DecalComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 
 AGam415Projectile::AGam415Projectile() 
@@ -65,6 +67,17 @@ void AGam415Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 
 	if (OtherActor != nullptr)
 	{
+		if (colorP)
+		{
+			// spawning particle
+			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, HitComp, NAME_None, FVector(-20.f, 0.f, 0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
+			// set color
+			particleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), randColor);
+			// destroy ball so It does not create a lot of particles
+			ballMesh->DestroyComponent();
+			CollisionComp->BodyInstance.SetCollisionProfileName("NoCollision");
+		}
+
 		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
 
 		// spawn decal where hit
