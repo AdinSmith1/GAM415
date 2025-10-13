@@ -10,6 +10,7 @@ AProcPlane::AProcPlane()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	// creates ProceduralMeshComponent
 	procMesh = CreateDefaultSubobject<UProceduralMeshComponent>("Proc Mesh");
 
 	
@@ -21,18 +22,19 @@ void AProcPlane::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
+// allows me to create mesh when plased in editor
 void AProcPlane::PostActorCreated()
 {
 	Super::PostActorCreated();
 	CreateMesh();
 
+	
 	if (PlaneMat)
 	{
 		procMesh->SetMaterial(0, PlaneMat);
 	}
 }
-
+// mesh is set whenever it loads back in
 void AProcPlane::PostLoad()
 {
 	Super::PostLoad();
@@ -53,6 +55,7 @@ void AProcPlane::Tick(float DeltaTime)
 
 void AProcPlane::CreateMesh()
 {
+	// creates mesh variables that I edit in unreal
 	procMesh->CreateMeshSection(0, Vertices, Triangles, TArray<FVector>(), UV0, TArray<FColor>(), TArray<FProcMeshTangent>(), true);
 }
 

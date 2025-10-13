@@ -10,6 +10,8 @@ APortal::APortal()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	// creating mesh, scene capture, and arrow
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	boxComp = CreateDefaultSubobject<UBoxComponent>("Box Comp");
 	sceneCapture = CreateDefaultSubobject<USceneCaptureComponent2D>("Capture");
@@ -21,7 +23,7 @@ APortal::APortal()
 	rootArrow->SetupAttachment(RootComponent);
 
 
-	// turn off mesh collision
+	// turn off mesh collision so player can walk through portal
 	mesh->SetCollisionResponseToAllChannels(ECR_Ignore);
 }
 
